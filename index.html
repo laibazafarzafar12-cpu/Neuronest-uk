@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuronest - ADHD Wellness Products</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        // Configure Tailwind with custom colors from the Neuronest logo
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neuronest-teal': '#2c9a87',    // Teal from logo top
+                        'neuronest-orange': '#f38f38',  // Orange from logo bottom
+                        'neuronest-bg': '#e8f4f8',      // Light calming teal background
+                        'neuronest-dark': '#1a202c',    // Dark header background
+                        'neuronest-light-teal': '#d1f2eb', // Lighter teal for accents
+                        'neuronest-light-orange': '#fde8d4', // Lighter orange for accents
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom CSS for hover effects and animations */
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(44, 154, 135, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2c9a87 0%, #f38f38 100%);
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 154, 135, 0.4);
+            background: linear-gradient(135deg, #1a7a6b 0%, #e67e22 100%);
+        }
+        
+        /* Smooth page transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #e8f4f8;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #2c9a87;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1a7a6b;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-neuronest-light-teal to-neuronest-light-orange min-h-screen">
+    <!-- Header -->
+    <header class="bg-neuronest-dark text-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" onclick="showPage('home')" class="flex items-center space-x-3 hover-lift">
+                    <img src="WellnessEmblemLogoforNeuronest.svg" 
+                         alt="Neuronest Logo" 
+                         class="h-12 w-12 object-contain">
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-bold">Neuronest</span>
+                        <span class="text-xs text-gray-300">ADHD Wellness</span>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" onclick="showPage('home')" class="nav-link hover-lift">Home</a>
+                    <a href="#" onclick="showPage('shop')" class="nav-link hover-lift">Shop</a>
+                    <a href="#" onclick="showPage('about')" class="nav-link hover-lift">About</a>
+                    <a href="#" onclick="showPage('blog')" class="nav-link hover-lift">Blog</a>
+                </div>
+
+                <!-- Cart Icon -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" onclick="showPage('cart')" class="relative hover-lift">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-neuronest-orange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-700">
+                <div class="flex flex-col space-y-2 pt-4">
+                    <a href="#" onclick="showPage('home')" class="mobile-nav-link">Home</a>
+                    <a href="#" onclick="showPage('shop')" class="mobile-nav-link">Shop</a>
+                    <a href="#" onclick="showPage('about')" class="mobile-nav-link">About</a>
+                    <a href="#" onclick="showPage('blog')" class="mobile-nav-link">Blog</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="relative bg-cover bg-center bg-no-repeat" style="background-image: url('ADHDblocks.svg'); min-height: 80vh;">
+                <!-- Overlay for better text readability -->
+                <div class="absolute inset-0 bg-gradient-to-r from-neuronest-teal/70 to-neuronest-orange/70"></div>
+                
+                <div class="container mx-auto px-4 text-center relative z-10 flex items-center justify-center" style="min-height: 80vh;">
+                    <div class="max-w-4xl">
+                        <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
+                            Every Mind<br>Deserves A Nest
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-white drop-shadow-lg">
+                            Discover thoughtfully curated products designed to support the ADHD mind. 
+                            From focus tools to calming solutions, we're here to help you thrive.
+                        </p>
+                        <a href="#" onclick="showPage('shop')" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold inline-block shadow-lg hover:shadow-xl transition-shadow">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="py-16 bg-gradient-to-r from-neuronest-light-orange to-neuronest-light-teal">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center mb-12 text-neuronest-teal">Featured Products</h2>
+                    <div class="grid md:grid-cols-3 gap-8" id="featured-products">
+                        <!-- Featured products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Preview -->
+            <section class="py-16 bg-gradient-to-r from-white to-neuronest-light-orange">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl font-bold mb-8 text-neuronest-teal">Why Choose Neuronest?</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6">
+                            <i class="fas fa-brain text-4xl text-neuronest-orange mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-4">ADHD-Focused Design</h3>
+                            <p class="text-gray-600">Every product is carefully selected to address specific ADHD challenges.</p>
+                        </div>
+                        <div class="p-6">
+                            <i class="fas fa-heart text-4xl text-neuronest-orange mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-4">Community-Driven</h3>
+                            <p class="text-gray-600">Products recommended by real people with ADHD who understand your needs.</p>
+                        </div>
+                        <div class="p-6">
+                            <i class="fas fa-shield-alt text-4xl text-neuronest-orange mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-4">Quality Guaranteed</h3>
+                            <p class="text-gray-600">All products are tested and approved by our ADHD community.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Shop Page -->
+        <section id="shop" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <h1 class="text-4xl font-bold text-center mb-12 text-neuronest-teal">Shop ADHD Wellness Products</h1>
+                
+                <!-- Category Filters -->
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button onclick="filterProducts('all')" class="filter-btn active">All Products</button>
+                    <button onclick="filterProducts('focus')" class="filter-btn">Focus Tools</button>
+                    <button onclick="filterProducts('calm')" class="filter-btn">Calming Products</button>
+                    <button onclick="filterProducts('organization')" class="filter-btn">Organization</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6" id="products-grid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Detail Page -->
+        <section id="product-detail" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <div class="max-w-4xl mx-auto">
+                    <button onclick="showPage('shop')" class="mb-6 text-neuronest-teal hover-lift">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Shop
+                    </button>
+                    
+                    <div class="grid md:grid-cols-2 gap-8" id="product-detail-content">
+                        <!-- Product details will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Page -->
+        <section id="cart" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <h1 class="text-4xl font-bold text-center mb-12 text-neuronest-teal">Shopping Cart</h1>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div id="cart-items" class="mb-8">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xl font-semibold">Total:</span>
+                            <span id="cart-total" class="text-2xl font-bold text-neuronest-orange">$0.00</span>
+                        </div>
+                        <button onclick="showPage('checkout')" class="btn-primary text-white w-full py-3 rounded-lg font-semibold">
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkout Page -->
+        <section id="checkout" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <h1 class="text-4xl font-bold text-center mb-12 text-neuronest-teal">Checkout</h1>
+                
+                <div class="max-w-2xl mx-auto">
+                    <form id="checkout-form" class="bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-semibold mb-6">Shipping Information</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">First Name</label>
+                                <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Last Name</label>
+                                <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium mb-2">Address</label>
+                            <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">City</label>
+                                <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">State</label>
+                                <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">ZIP Code</label>
+                                <input type="text" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-2xl font-semibold mb-6">Payment Information</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium mb-2">Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">CVV</label>
+                                <input type="text" placeholder="123" required class="w-full p-3 border border-gray-300 rounded-lg focus:border-neuronest-teal focus:ring focus:ring-neuronest-teal focus:ring-opacity-50">
+                            </div>
+                            <div class="flex items-end">
+                                <button type="submit" class="btn-primary text-white w-full py-3 rounded-lg font-semibold">
+                                    Place Order
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <div class="max-w-4xl mx-auto">
+                    <h1 class="text-4xl font-bold text-center mb-12 text-neuronest-teal">About Neuronest</h1>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
+                        <h2 class="text-2xl font-semibold mb-6 text-neuronest-teal">Our Mission</h2>
+                        <p class="text-lg text-gray-700 mb-6 font-semibold italic">
+                            "Neuronest exists to empower neurodivergent minds—especially those with ADHD—by offering elegant, tech-integrated lifestyle tools that support focus, comfort, and emotional clarity."
+                        </p>
+                        <p class="text-lg text-gray-700 mb-6">
+                            At Neuronest, we believe that everyone deserves to thrive, regardless of how their brain works. 
+                            Our mission is to provide thoughtfully curated products and resources that support the unique needs 
+                            of individuals with ADHD and other neurodiverse conditions.
+                        </p>
+                        <p class="text-lg text-gray-700 mb-6">
+                            We understand that living with ADHD comes with unique challenges - from maintaining focus and 
+                            organization to managing sensory sensitivities and emotional regulation. That's why we've created 
+                            a space where you can find products that actually work for your brain.
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-4 text-neuronest-orange">Our Story</h3>
+                            <p class="text-gray-700 mb-4 font-semibold italic">
+                                Neuronest celebrates ADHD by creating elegant, tech-integrated comfort tools that support focus, calm, and confidence. Founded from lived experience, our products are designed to honor neurodivergent rhythms and empower everyday life.
+                            </p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-4 text-neuronest-orange">Our Promise</h3>
+                            <p class="text-gray-700 font-semibold italic">
+                                Every product in our collection has been carefully selected and tested by our community. We promise to only offer items that genuinely help with ADHD challenges, backed by real experiences and feedback from people who understand your journey.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Page -->
+        <section id="blog" class="page">
+            <div class="container mx-auto px-4 py-8">
+                <h1 class="text-4xl font-bold text-center mb-12 text-neuronest-teal">ADHD Wellness Blog</h1>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
+                    <!-- Blog posts will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neuronest-dark text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Neuronest</h3>
+                    <p class="text-gray-400 mb-4">Empowering neurodiverse minds with thoughtful tools and support.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showPage('about')" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" onclick="showPage('shop')" class="hover:text-white transition-colors">Shop</a></li>
+                        <li><a href="#" onclick="showPage('blog')" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i>hello@neuronest.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>(555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Neuronest. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global state management
+        let currentCart = JSON.parse(localStorage.getItem('neuronest-cart')) || [];
+        let currentPage = 'home';
+
+        // Mock product data
+        const products = [
+            {
+                id: 1,
+                name: "Tile Mate Item Tracker",
+                price: 24.99,
+                category: "organization",
+                image: "tilemate.svg",
+                description: "A compact Bluetooth tracker to help locate misplaced items and reduce forgetfulness.",
+                longDescription: "The Tile Mate is a small, lightweight tracker that helps you find your keys, wallet, phone, or other important items. Simply attach it to your belongings and use the Tile app to ring your item or see its last known location. Features a replaceable battery that lasts up to 3 years and a range of up to 200 feet. Perfect for those who frequently misplace items due to ADHD."
+            },
+            {
+                id: 2,
+                name: "Gaiam Balance Ball Chair",
+                price: 79.99,
+                category: "focus",
+                image: "gaiamballchair.svg",
+                description: "An ergonomic balance ball chair that promotes active sitting and improves focus through movement.",
+                longDescription: "The Gaiam Balance Ball Chair combines the benefits of a stability ball with the support of a traditional office chair. The teal exercise ball provides gentle movement that helps maintain focus and engagement, while the ergonomic backrest and wheeled base offer stability and mobility. Perfect for those with ADHD who benefit from subtle movement while working. Features include an adjustable height, durable construction, and easy assembly. The active sitting position helps improve posture and core strength while reducing restlessness."
+            },
+            {
+                id: 3,
+                name: "Muse Brain Sensing Headband",
+                price: 199.99,
+                category: "calm",
+                image: "museheadband.svg",
+                description: "A brain-sensing meditation device that provides real-time feedback to improve focus and reduce stress.",
+                longDescription: "The Muse headband uses advanced EEG technology to detect brain activity and provide real-time feedback during meditation sessions. The device helps users achieve deeper states of relaxation and focus through gentle audio guidance. Perfect for those with ADHD who struggle with racing thoughts and need help quieting their mind. Features include guided meditation sessions, progress tracking, and a comfortable, adjustable design. The headband connects to the Muse app to provide personalized insights and track your meditation journey over time."
+            },
+            {
+                id: 4,
+                name: "Portable Vibration Massager",
+                price: 34.99,
+                category: "calm",
+                image: "vibrationmassager.svg",
+                description: "A compact, portable massager with three contact points for targeted relaxation and stress relief.",
+                longDescription: "This portable vibration massager features a calming teal design with three rounded contact points for targeted massage therapy. The device provides gentle vibration that helps release muscle tension and reduce stress. Perfect for those with ADHD who experience physical tension or need sensory input for relaxation. Features include multiple vibration modes, a comfortable grip design, and a compact size that fits easily in a bag or desk drawer. The ergonomic design with ribbed sections ensures a secure hold during use."
+            },
+            {
+                id: 5,
+                name: "Wobble Chair",
+                price: 89.99,
+                category: "focus",
+                image: "wobblechair.svg",
+                description: "A dynamic seating solution that promotes active sitting and improves focus through gentle movement.",
+                longDescription: "The wobble chair is designed for active sitting, allowing subtle movement that helps maintain focus and engagement. The bright lime green design adds energy to any space while the ergonomic shape supports proper posture. Perfect for children and adults with ADHD who benefit from movement while working or studying. Features include a durable construction, non-slip base, and a comfortable seat that encourages natural movement. The chair helps improve core strength and balance while reducing restlessness and improving concentration."
+            },
+            {
+                id: 6,
+                name: "Bucky Ball Sensory Set",
+                price: 29.99,
+                category: "calm",
+                image: "f223c729bc1d0abe2842d23e1d583aff6049af32_original.svg",
+                description: "A complete set of textured sensory balls in four different colors for tactile stimulation and stress relief.",
+                longDescription: "The Bucky Ball Sensory Set includes four different textured balls in each of four color schemes (purple, green, red/pink, and black/gray), plus a convenient carrying case. Each ball features a unique texture - from faceted surfaces to star-like spikes and honeycomb patterns - providing various levels of tactile stimulation. Perfect for those with ADHD who need sensory input for focus and relaxation. The soft, pliable silicone material is safe and durable, while the portable case makes it easy to take anywhere. Great for fidgeting, stress relief, and sensory regulation."
+            },
+            {
+                id: 7,
+                name: "Smart Plug Controller",
+                price: 19.99,
+                category: "organization",
+                image: "switch.svg",
+                description: "A smart plug that allows remote control of devices to help manage daily routines and reduce forgetfulness.",
+                longDescription: "This smart plug connects to your home Wi-Fi network and allows you to control connected devices remotely through a smartphone app. Perfect for those with ADHD who may forget to turn off appliances or need help establishing consistent routines. Features include scheduling capabilities, voice control compatibility, and energy monitoring. The green indicator light shows when the device is active and connected. Great for managing lamps, fans, or other devices to create consistent environments for focus and relaxation."
+            },
+            {
+                id: 8,
+                name: "White Noise Machine",
+                price: 69.99,
+                category: "calm",
+                image: "whitenoisemachine.svg",
+                description: "A modern white noise machine with touch controls and multiple sound options for focus and relaxation.",
+                longDescription: "This sleek white noise machine features a touch-sensitive interface with multiple sound modes including white noise, nature sounds, and ambient music. The illuminated ring provides visual feedback and creates a calming atmosphere. Perfect for those with ADHD who are sensitive to environmental sounds or need consistent background noise for focus. Features include volume control, sleep timer, and Wi-Fi connectivity for remote operation. The fabric-covered design blends seamlessly into any environment while providing effective sound masking for better concentration and sleep."
+            },
+            {
+                id: 9,
+                name: "Neuronest Premium Headphones",
+                price: 149.99,
+                category: "calm",
+                image: "headphones.svg",
+                description: "Premium over-ear headphones designed specifically for ADHD focus and sensory comfort.",
+                longDescription: "These Neuronest-branded headphones are specifically designed for individuals with ADHD, featuring extra-soft padding and noise-reducing technology. The large, comfortable earcups provide excellent sound isolation while the padded headband ensures all-day comfort. Perfect for creating a focused environment, blocking out distractions, or enjoying calming music. Features include high-quality audio drivers, detachable cable, and foldable design for easy storage. The sleek black design with white Neuronest branding makes a professional statement while providing the sensory comfort needed for optimal focus and relaxation."
+            }
+        ];
+
+        // Mock blog posts
+        const blogPosts = [
+            {
+                id: 1,
+                title: "5 Strategies to Tame ADHD Time Blindness",
+                excerpt: "Learn practical techniques to manage time perception and improve productivity with ADHD-friendly tools and methods...",
+                image: "ADHD-Blocks.svg",
+                date: "2025-01-15",
+                content: "Time blindness is one of the most challenging aspects of ADHD. Here are five proven strategies to help you better manage your time and stay on track with your daily tasks. From using visual timers to breaking down large projects into smaller chunks, discover how to work with your brain instead of against it."
+            },
+            {
+                id: 2,
+                title: "Creating a Sensory-Friendly Workspace",
+                excerpt: "Transform your environment to support focus and reduce sensory overwhelm with ADHD-optimized design...",
+                image: "gaiam ball chair.svg",
+                date: "2025-01-10",
+                content: "Your environment plays a crucial role in your ability to focus and stay productive. Learn how to create a workspace that supports your unique sensory needs, from choosing the right lighting to incorporating movement-friendly furniture like balance ball chairs that help maintain focus through gentle movement."
+            },
+            {
+                id: 3,
+                title: "The Science Behind Fidget Toys and ADHD",
+                excerpt: "Discover how movement and tactile stimulation can enhance concentration and reduce anxiety...",
+                image: "tile mate.svg",
+                date: "2025-01-05",
+                content: "Fidget toys aren't just for kids! Research shows that controlled movement can actually improve focus and cognitive performance in individuals with ADHD. Learn about the neuroscience behind why tactile stimulation helps calm racing thoughts and improves concentration."
+            },
+            {
+                id: 4,
+                title: "Mindfulness and Meditation for ADHD",
+                excerpt: "Explore how brain-sensing technology can help develop mindfulness practices tailored for ADHD minds...",
+                image: "muse headband.svg",
+                date: "2025-01-03",
+                content: "Meditation can be particularly challenging for those with ADHD, but brain-sensing technology like the Muse headband can provide real-time feedback to help develop mindfulness practices. Discover techniques specifically designed for ADHD brains and how technology can support your meditation journey."
+            },
+            {
+                id: 5,
+                title: "Organization Systems That Work for ADHD",
+                excerpt: "Build sustainable organization habits using tools and systems designed for neurodiverse minds...",
+                image: "tile mate.svg",
+                date: "2025-01-01",
+                content: "Traditional organization systems often don't work for ADHD brains. Learn about innovative tools and systems that are designed specifically for neurodiverse minds, from smart tracking devices to visual organization methods that work with your natural thinking patterns."
+            },
+            {
+                id: 6,
+                title: "Managing ADHD in the Digital Age",
+                excerpt: "Navigate technology distractions and use digital tools to enhance focus and productivity...",
+                image: "buckyballs.svg",
+                date: "2024-12-28",
+                content: "Technology can be both a blessing and a curse for those with ADHD. Learn how to use digital tools strategically to enhance focus while minimizing distractions. From noise-canceling headphones to productivity apps, discover technology that supports rather than hinders your ADHD management."
+            }
+        ];
+
+        // Utility functions
+        function updateCartCount() {
+            const count = currentCart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function saveCart() {
+            localStorage.setItem('neuronest-cart', JSON.stringify(currentCart));
+            updateCartCount();
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300`;
+            
+            const colors = {
+                success: 'bg-green-500 text-white',
+                error: 'bg-red-500 text-white',
+                info: 'bg-blue-500 text-white'
+            };
+            
+            notification.className += ` ${colors[type]}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => notification.classList.remove('translate-x-full'), 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            currentPage = pageName;
+            
+            // Load page-specific content
+            switch(pageName) {
+                case 'home':
+                    loadFeaturedProducts();
+                    break;
+                case 'shop':
+                    loadProducts();
+                    break;
+                case 'cart':
+                    loadCart();
+                    break;
+                case 'blog':
+                    loadBlogPosts();
+                    break;
+            }
+            
+            // Close mobile menu
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Product functions
+        function loadProducts(filter = 'all') {
+            const container = document.getElementById('products-grid');
+            const filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+            
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain p-2">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-neuronest-orange">$${product.price}</span>
+                            <button onclick="addToCart(${product.id})" class="btn-primary text-white px-3 py-1.5 rounded text-sm font-medium">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button onclick="showProductDetail(${product.id})" class="w-full mt-3 text-neuronest-teal hover:underline">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadFeaturedProducts() {
+            const container = document.getElementById('featured-products');
+            const featured = products.slice(0, 3);
+            
+            container.innerHTML = featured.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain p-2">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-neuronest-orange">$${product.price}</span>
+                            <button onclick="addToCart(${product.id})" class="btn-primary text-white px-3 py-1.5 rounded text-sm font-medium">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <button onclick="showProductDetail(${product.id})" class="w-full mt-3 text-neuronest-teal hover:underline">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const container = document.getElementById('product-detail-content');
+            container.innerHTML = `
+                <div>
+                    <div class="w-full bg-gray-100 rounded-lg shadow-lg flex items-center justify-center p-8">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-96 object-contain">
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold mb-4">${product.name}</h1>
+                    <p class="text-2xl font-bold text-neuronest-orange mb-6">$${product.price}</p>
+                    <p class="text-gray-700 mb-6">${product.longDescription}</p>
+                    <div class="flex items-center mb-6">
+                        <span class="bg-neuronest-teal text-white px-3 py-1 rounded-full text-sm mr-4">${product.category}</span>
+                    </div>
+                    <button onclick="addToCart(${product.id})" class="btn-primary text-white px-8 py-4 rounded-lg text-lg font-semibold w-full">
+                        Add to Cart
+                    </button>
+                </div>
+            `;
+            
+            showPage('product-detail');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = currentCart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                currentCart.push({ ...product, quantity: 1 });
+            }
+            
+            saveCart();
+            showNotification('Added to cart!', 'success');
+        }
+
+        function loadCart() {
+            const container = document.getElementById('cart-items');
+            
+            if (currentCart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Your cart is empty</h3>
+                        <p class="text-gray-600 mb-6">Start shopping to add some amazing ADHD wellness products!</p>
+                        <a href="#" onclick="showPage('shop')" class="btn-primary text-white px-6 py-3 rounded-lg">
+                            Shop Now
+                        </a>
+                    </div>
+                `;
+                document.getElementById('cart-total').textContent = '$0.00';
+                return;
+            }
+            
+            container.innerHTML = currentCart.map(item => `
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-4">
+                    <div class="flex items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold">${item.name}</h3>
+                            <p class="text-gray-600">$${item.price}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">-</button>
+                            <span class="w-8 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">+</button>
+                        </div>
+                        <div class="ml-4">
+                            <span class="text-lg font-semibold">$${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="ml-4 text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            const total = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const item = currentCart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = newQuantity;
+                saveCart();
+                loadCart();
+            }
+        }
+
+        function removeFromCart(productId) {
+            currentCart = currentCart.filter(item => item.id !== productId);
+            saveCart();
+            loadCart();
+            showNotification('Item removed from cart', 'info');
+        }
+
+        function filterProducts(category) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            loadProducts(category);
+        }
+
+        function loadBlogPosts() {
+            const container = document.getElementById('blog-posts');
+            
+            container.innerHTML = blogPosts.map(post => `
+                <article class="bg-white rounded-lg shadow-lg overflow-hidden hover-lift">
+                    <img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">${post.title}</h3>
+                        <p class="text-gray-600 mb-4">${post.excerpt}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">${new Date(post.date).toLocaleDateString()}</span>
+                            <button onclick="showBlogPost(${post.id})" class="text-neuronest-teal hover:underline">Read more</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function showBlogPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+            
+            // For simplicity, we'll just show an alert with the content
+            alert(`${post.title}\n\n${post.content}`);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            updateCartCount();
+            loadFeaturedProducts();
+            
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+            
+            // Checkout form
+            document.getElementById('checkout-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showNotification('Order placed successfully! Thank you for your purchase.', 'success');
+                currentCart = [];
+                saveCart();
+                showPage('home');
+            });
+        });
+
+        // Add CSS for filter buttons
+        const style = document.createElement('style');
+        style.textContent = `
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                border: 2px solid #2c9a87;
+                border-radius: 0.5rem;
+                color: #2c9a87;
+                background: white;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(44, 154, 135, 0.1);
+            }
+            
+            .filter-btn:hover, .filter-btn.active {
+                background: linear-gradient(135deg, #2c9a87 0%, #f38f38 100%);
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(44, 154, 135, 0.3);
+            }
+            
+            .nav-link {
+                color: white;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+            
+            .nav-link:hover {
+                color: #f38f38;
+            }
+            
+            .mobile-nav-link {
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 0;
+                transition: color 0.3s ease;
+            }
+            
+            .mobile-nav-link:hover {
+                color: #f38f38;
+            }
+            
+            .product-card {
+                background: white;
+                border: 1px solid rgba(44, 154, 135, 0.1);
+                transition: all 0.3s ease;
+            }
+            
+            .product-card:hover {
+                border-color: #f38f38;
+                box-shadow: 0 8px 25px rgba(243, 143, 56, 0.15);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
